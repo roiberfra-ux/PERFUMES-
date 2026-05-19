@@ -76,7 +76,7 @@ const perfumes: Perfume[] = [
     category: 'Nicho',
     price: '$780.000',
     priceNum: 780000,
-    image: 'TOM FORD',
+    image: 'TOMFORD.JPG',
     description: 'Lujosa y oscura, una experiencia olfativa sin precedentes.',
     notes: 'Orquídea negra, trufa, pachulí',
     rating: 4.9,
@@ -131,6 +131,7 @@ const perfumes: Perfume[] = [
     notes: 'Café, vainilla, jazmín',
     rating: 4.8,
   },
+];
 
 const categories: Category[] = ['Todos', 'Hombre', 'Mujer', 'Nicho'];
 
