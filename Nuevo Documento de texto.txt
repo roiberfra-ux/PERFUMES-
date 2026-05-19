@@ -36,7 +36,7 @@ const perfumes: Perfume[] = [
     category: 'Hombre',
     price: '$650.000',
     priceNum: 650000,
-    image: 'BLUE.JPG',
+    image: 'https://images.pexels.com/photos/9537413/pexels-photo-9537413.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Fragancia amaderada y fresca que define la elegancia masculina.',
     notes: 'Cedro, limón, menta',
     rating: 4.8,
@@ -46,17 +46,17 @@ const perfumes: Perfume[] = [
     category: 'Hombre',
     price: '$620.000',
     priceNum: 620000,
-    image: 'DIOR.JPG',
+    image: 'https://images.pexels.com/photos/965989/pexels-photo-965989.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Salvaje y noble, una fragancia que evoca paisajes abiertos.',
     notes: 'Bergamota, pimienta, ambroxano',
     rating: 4.9,
   },
   {
-    name: 'La Vie Est Belle',
+    name: '/La Vie Est Belle',
     category: 'Mujer',
     price: '$580.000',
     priceNum: 580000,
-    image: 'LAVIEBELLE.JG',
+    image: 'https://images.pexels.com/photos/9657481/pexels-photo-9657481.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'La felicidad capturada en un frasco, dulce y luminosa.',
     notes: 'Iris, jazmín, naranja',
     rating: 4.7,
@@ -76,7 +76,7 @@ const perfumes: Perfume[] = [
     category: 'Nicho',
     price: '$780.000',
     priceNum: 780000,
-    image: 'TOMFORD.JPG',
+    image: 'https://images.pexels.com/photos/3373739/pexels-photo-3373739.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Lujosa y oscura, una experiencia olfativa sin precedentes.',
     notes: 'Orquídea negra, trufa, pachulí',
     rating: 4.9,
@@ -86,7 +86,7 @@ const perfumes: Perfume[] = [
     category: 'Hombre',
     price: '$560.000',
     priceNum: 560000,
-    image: 'ACGUA.JPG',
+    image: 'https://images.pexels.com/photos/755992/pexels-photo-755992.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'La brisa del Mediterráneo capturada en una fragancia icónica.',
     notes: 'Notas marinas, ciprés, mandarina',
     rating: 4.7,
@@ -96,7 +96,7 @@ const perfumes: Perfume[] = [
     category: 'Mujer',
     price: '$570.000',
     priceNum: 570000,
-    image: 'CHLOE.jpg',
+    image: 'https://images.pexels.com/photos/9657482/pexels-photo-9657482.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Romántica y delicada, la esencia de la mujer moderna.',
     notes: 'Rosa, peonía, litchi',
     rating: 4.5,
@@ -106,7 +106,7 @@ const perfumes: Perfume[] = [
     category: 'Nicho',
     price: '$1.650.000',
     priceNum: 1650000,
-    image: 'CREEDE.jpg',
+    image: 'https://images.pexels.com/photos/9657475/pexels-photo-9657475.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'El rey de las fragancias nicho, poderosa y legendaria.',
     notes: 'Piña, abedul, musgo',
     rating: 5.0,
@@ -116,7 +116,7 @@ const perfumes: Perfume[] = [
     category: 'Hombre',
     price: '$520.000',
     priceNum: 520000,
-    image: 'VERSACE.JPG',
+    image: 'https://images.pexels.com/photos/7319070/pexels-photo-7319070.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Dios del amor, fragancia seductora y vibrante.',
     notes: 'Menta, manzana verde, vainilla',
     rating: 4.6,
@@ -126,7 +126,7 @@ const perfumes: Perfume[] = [
     category: 'Mujer',
     price: '$610.000',
     priceNum: 610000,
-    image: 'YSL.JPG',
+    image: 'https://images.pexels.com/photos/4041392/pexels-photo-4041392.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Adictiva y rockera, la oscuridad nunca fue tan tentadora.',
     notes: 'Café, vainilla, jazmín',
     rating: 4.8,
@@ -136,7 +136,7 @@ const perfumes: Perfume[] = [
     category: 'Hombre',
     price: '$540.000',
     priceNum: 540000,
-    image: 'BURBERRY.JPG',
+    image: 'https://images.pexels.com/photos/3765170/pexels-photo-3765170.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Coraje y determinación en cada aplicación.',
     notes: 'Cedro, vetiver, musgo de roble',
     rating: 4.4,
@@ -146,7 +146,7 @@ const perfumes: Perfume[] = [
     category: 'Nicho',
     price: '$1.850.000',
     priceNum: 1850000,
-    image: 'https://images.pexels.com/photos/9657475/pexels-photo-9657475.jpeg?auto=compress&cs=tinysrgb&w=600',
+    image: 'https://images.pexels.com/photos/9657476/pexels-photo-9657476.jpeg?auto=compress&cs=tinysrgb&w=600',
     description: 'Joya de la perfumería, una obra maestra de Maison FK.',
     notes: 'Azafrán, ambrosía, cedro',
     rating: 5.0,
@@ -398,22 +398,30 @@ function PerfumeCard({
   isFav: boolean;
   onToggleFav: (name: string) => void;
 }) {
+  const [imgError, setImgError] = useState(false);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   return (
     <div className="group bg-zinc-900/40 border border-zinc-800/50 rounded-2xl overflow-hidden hover:border-yellow-500/30 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-500/5">
       <div className="relative overflow-hidden aspect-[3/4]">
-        {!imgLoaded && (
+        {!imgLoaded && !imgError && (
           <div className="absolute inset-0 bg-zinc-800 shimmer" />
         )}
-        <img
-          src={perfume.image}
-          alt={perfume.name}
-          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ${
-            imgLoaded ? 'opacity-100' : 'opacity-0'
-          }`}
-          onLoad={() => setImgLoaded(true)}
-        />
+        {imgError ? (
+          <div className="absolute inset-0 bg-zinc-800 flex items-center justify-center">
+            <Sparkles className="w-12 h-12 text-zinc-600" />
+          </div>
+        ) : (
+          <img
+            src={perfume.image}
+            alt={perfume.name}
+            className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ${
+              imgLoaded ? 'opacity-100' : 'opacity-0'
+            }`}
+            onLoad={() => setImgLoaded(true)}
+            onError={() => setImgError(true)}
+          />
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 
         <button
@@ -449,7 +457,7 @@ function PerfumeCard({
           <span className="text-xs text-zinc-500 ml-1">{perfume.rating}</span>
         </div>
 
-        <h3 className="text-lg font-bold text-white group-hover:text-yellow-500 transition-colors duration-300">
+        <h3 className="text-lg font-bold text-white group-hover:text-yellow-500 transition-colors duration-300 font-display">
           {perfume.name}
         </h3>
 
@@ -498,7 +506,7 @@ function Catalog({
     return 0;
   });
 
-  const handleAddCart = () => setCartCount(cartCount + 1);
+  const handleAddCart = (_name: string) => setCartCount(cartCount + 1);
 
   const toggleFav = (name: string) => {
     setFavorites((prev) => {
@@ -595,10 +603,7 @@ function Banner() {
   const { ref, isVisible } = useInView();
 
   return (
-    <section
-      className="relative py-24 overflow-hidden"
-      ref={ref}
-    >
+    <section className="relative py-24 overflow-hidden" ref={ref}>
       <div className="absolute inset-0 bg-gradient-gold opacity-95" />
       <div
         className="absolute inset-0"
@@ -724,4 +729,3 @@ export default function App() {
     </div>
   );
 }
-
