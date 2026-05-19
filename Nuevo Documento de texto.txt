@@ -1,241 +1,706 @@
-export default function AromaSelectoStore() {
-  const perfumes = [
+import { useState, useEffect, useRef } from 'react';
+import {
+  ShoppingBag,
+  Menu,
+  X,
+  Truck,
+  CreditCard,
+  MessageCircle,
+  Star,
+  ChevronDown,
+  Heart,
+  Search,
+  ArrowRight,
+  Sparkles,
+  Instagram,
+  Facebook,
+  Music2,
+} from 'lucide-react';
+
+type Category = 'Todos' | 'Hombre' | 'Mujer' | 'Nicho';
+
+interface Perfume {
+  name: string;
+  category: Category;
+  price: string;
+  priceNum: number;
+  image: string;
+  description: string;
+  notes: string;
+  rating: number;
+}
+
+const perfumes: Perfume[] = [
+  {
+    name: 'Bleu de Chanel',
+    category: 'Hombre',
+    price: '$650.000',
+    priceNum: 650000,
+    image: 'BLUE.JPG',
+    description: 'Fragancia amaderada y fresca que define la elegancia masculina.',
+    notes: 'Cedro, limón, menta',
+    rating: 4.8,
+  },
+  {
+    name: 'Dior Sauvage',
+    category: 'Hombre',
+    price: '$620.000',
+    priceNum: 620000,
+    image: 'DIOR.JPG',
+    description: 'Salvaje y noble, una fragancia que evoca paisajes abiertos.',
+    notes: 'Bergamota, pimienta, ambroxano',
+    rating: 4.9,
+  },
+  {
+    name: 'La Vie Est Belle',
+    category: 'Mujer',
+    price: '$580.000',
+    priceNum: 580000,
+    image: 'LAVIEBELLE.JPG',
+    description: 'La felicidad capturada en un frasco, dulce y luminosa.',
+    notes: 'Iris, jazmín, naranja',
+    rating: 4.7,
+  },
+  {
+    name: 'BURBERRY',
+    category: 'Mujer',
+    price: '$590.000',
+    priceNum: 590000,
+    image: 'BURBERRY.JPG',
+    description: 'fragancia elegante, fresca y sofisticada con un toque clásico y duradero.',
+    notes: 'Tuberosa, jazmín, rango',
+    rating: 4.6,
+  },
+  {
+    name: 'Tom Ford Black Orchid',
+    category: 'Nicho',
+    price: '$780.000',
+    priceNum: 780000,
+    image: 'TOM FORD',
+    description: 'Lujosa y oscura, una experiencia olfativa sin precedentes.',
+    notes: 'Orquídea negra, trufa, pachulí',
+    rating: 4.9,
+  },
+  {
+    name: 'Acqua Di Gio',
+    category: 'Hombre',
+    price: '$560.000',
+    priceNum: 560000,
+    image: 'ACGUA.JPG',
+    description: 'La brisa del Mediterráneo capturada en una fragancia icónica.',
+    notes: 'Notas marinas, ciprés, mandarina',
+    rating: 4.7,
+  },
+  {
+    name: 'Chloé Eau de Parfum',
+    category: 'Mujer',
+    price: '$570.000',
+    priceNum: 570000,
+    image: 'CHLOE.jpg',
+    description: 'Romántica y delicada, la esencia de la mujer moderna.',
+    notes: 'Rosa, peonía, litchi',
+    rating: 4.5,
+  },
+  {
+    name: 'Creed Aventus',
+    category: 'Nicho',
+    price: '$1.650.000',
+    priceNum: 1650000,
+    image: 'CREEDE.jpg',
+    description: 'El rey de las fragancias nicho, poderosa y legendaria.',
+    notes: 'Piña, abedul, musgo',
+    rating: 5.0,
+  },
+  {
+    name: 'Versace Eros',
+    category: 'Hombre',
+    price: '$520.000',
+    priceNum: 520000,
+    image: 'VERSACE.JPG',
+    description: 'Dios del amor, fragancia seductora y vibrante.',
+    notes: 'Menta, manzana verde, vainilla',
+    rating: 4.6,
+  },
+  {
+    name: 'YSL Black Opium',
+    category: 'Mujer',
+    price: '$610.000',
+    priceNum: 610000,
+    image: 'YSL.JPG',
+    description: 'Adictiva y rockera, la oscuridad nunca fue tan tentadora.',
+    notes: 'Café, vainilla, jazmín',
+    rating: 4.8,
+  },
+
+const categories: Category[] = ['Todos', 'Hombre', 'Mujer', 'Nicho'];
+
+function useInView(threshold = 0.15) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [threshold]);
+
+  return { ref, isVisible };
+}
+
+function Navbar({ cartCount }: { cartCount: number }) {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const links = [
+    { label: 'Inicio', href: '#inicio' },
+    { label: 'Catálogo', href: '#catalogo' },
+    { label: 'Beneficios', href: '#beneficios' },
+    { label: 'Contacto', href: '#contacto' },
+  ];
+
+  return (
+    <header
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        scrolled
+          ? 'glass border-b border-zinc-800/60 shadow-2xl shadow-black/30'
+          : 'bg-transparent'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-6 lg:px-8 py-4">
+        <a href="#inicio" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
+            <Sparkles className="w-5 h-5 text-black" />
+          </div>
+          <div>
+            <h1 className="text-xl font-bold tracking-[0.25em] text-yellow-500 font-display">
+              AROMA SELECTO
+            </h1>
+            <p className="text-[10px] tracking-[0.2em] text-zinc-500 uppercase">
+              Perfumería Premium
+            </p>
+          </div>
+        </a>
+
+        <nav className="hidden md:flex items-center gap-8">
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-sm text-zinc-400 hover:text-yellow-500 transition-colors duration-300 relative after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-yellow-500 after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {link.label}
+            </a>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <button className="relative group">
+            <ShoppingBag className="w-6 h-6 text-zinc-400 group-hover:text-yellow-500 transition-colors duration-300" />
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 w-5 h-5 bg-yellow-500 text-black text-[10px] font-bold rounded-full flex items-center justify-center animate-scale-in">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          <button
+            className="md:hidden text-zinc-400 hover:text-yellow-500 transition-colors"
+            onClick={() => setMobileOpen(!mobileOpen)}
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {mobileOpen && (
+        <div className="md:hidden glass border-t border-zinc-800/60 animate-slide-in-right">
+          <nav className="flex flex-col px-6 py-6 gap-4">
+            {links.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className="text-zinc-300 hover:text-yellow-500 transition-colors py-2 text-lg"
+              >
+                {link.label}
+              </a>
+            ))}
+          </nav>
+        </div>
+      )}
+    </header>
+  );
+}
+
+function Hero() {
+  return (
+    <section
+      id="inicio"
+      className="relative min-h-screen flex items-center justify-center text-center px-6 overflow-hidden"
+    >
+      <div className="absolute inset-0">
+        <img
+          src="https://images.pexels.com/photos/9657469/pexels-photo-9657469.jpeg?auto=compress&cs=tinysrgb&w=1920"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black" />
+      </div>
+
+      <div className="relative z-10 max-w-4xl mx-auto">
+        <div className="animate-fade-up">
+          <p className="uppercase tracking-[0.5em] text-yellow-500 text-xs font-medium mb-6 flex items-center justify-center gap-2">
+            <Sparkles className="w-4 h-4" />
+            Perfumes Exclusivos
+            <Sparkles className="w-4 h-4" />
+          </p>
+        </div>
+
+        <h2 className="animate-fade-up-delay-1 text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.1] font-display">
+          Tu esencia habla{' '}
+          <span className="text-gradient-gold">antes que tú.</span>
+        </h2>
+
+        <p className="animate-fade-up-delay-2 text-zinc-400 text-lg md:text-xl mt-8 max-w-2xl mx-auto leading-relaxed">
+          Descubre fragancias elegantes, intensas y memorables para cada estilo.
+          Aroma Selecto redefine la experiencia de comprar perfumes online.
+        </p>
+
+        <div className="animate-fade-up-delay-3 flex flex-col sm:flex-row gap-4 justify-center mt-12">
+          <a
+            href="#catalogo"
+            className="group bg-gradient-gold text-black px-8 py-4 rounded-full font-bold text-sm tracking-wide hover:shadow-lg hover:shadow-yellow-500/25 transition-all duration-300 hover:-translate-y-0.5 flex items-center justify-center gap-2"
+          >
+            Comprar Ahora
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </a>
+          <a
+            href="#catalogo"
+            className="border border-zinc-700 text-zinc-300 px-8 py-4 rounded-full font-medium text-sm tracking-wide hover:border-yellow-500 hover:text-yellow-500 transition-all duration-300"
+          >
+            Ver Catálogo
+          </a>
+        </div>
+      </div>
+
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+        <ChevronDown className="w-6 h-6 text-zinc-500" />
+      </div>
+    </section>
+  );
+}
+
+function Benefits() {
+  const { ref, isVisible } = useInView();
+
+  const items = [
     {
-      name: "Bleu Intense",
-      category: "Hombre",
-      price: "$320.000",
-      image:
-        "https://images.unsplash.com/photo-1541643600914-78b084683601?q=80&w=1200&auto=format&fit=crop",
+      icon: Truck,
+      title: 'Envíos Seguros',
+      desc: 'Entrega rápida y protegida en toda Colombia. Empaque premium que cuida tu fragancia.',
     },
     {
-      name: "Rose Élégance",
-      category: "Mujer",
-      price: "$290.000",
-      image:
-        "https://images.unsplash.com/photo-1594035910387-fea47794261f?q=80&w=1200&auto=format&fit=crop",
+      icon: CreditCard,
+      title: 'Pagos Online',
+      desc: 'PSE, Nequi, tarjetas y transferencias seguras. Compra con total confianza.',
     },
     {
-      name: "Golden Essence",
-      category: "Nicho",
-      price: "$410.000",
-      image:
-        "https://images.unsplash.com/photo-1523293182086-7651a899d37f?q=80&w=1200&auto=format&fit=crop",
+      icon: MessageCircle,
+      title: 'Atención Personalizada',
+      desc: 'Asesoría directa por WhatsApp Business. Te ayudamos a elegir tu fragancia ideal.',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white font-sans">
-      {/* Navbar */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-zinc-800 sticky top-0 bg-black/90 backdrop-blur z-50">
-        <div>
-          <h1 className="text-2xl font-bold tracking-[0.3em] text-yellow-500">
-            AROMA SELECTO
-          </h1>
-          <p className="text-xs text-zinc-400 mt-1">
-            Perfumería Premium
-          </p>
-        </div>
-
-        <nav className="hidden md:flex gap-8 text-sm text-zinc-300">
-          <a href="#inicio" className="hover:text-yellow-500 transition">
-            Inicio
-          </a>
-          <a href="#catalogo" className="hover:text-yellow-500 transition">
-            Catálogo
-          </a>
-          <a href="#beneficios" className="hover:text-yellow-500 transition">
-            Beneficios
-          </a>
-          <a href="#contacto" className="hover:text-yellow-500 transition">
-            Contacto
-          </a>
-        </nav>
-
-        <button className="bg-yellow-500 text-black px-5 py-2 rounded-full font-semibold hover:scale-105 transition">
-          Carrito
-        </button>
-      </header>
-
-      {/* Hero */}
-      <section
-        id="inicio"
-        className="relative min-h-[90vh] flex items-center justify-center text-center px-6 overflow-hidden"
-      >
-        <img
-          src="https://images.unsplash.com/photo-1595425970377-c9703cf48b6d?q=80&w=1600&auto=format&fit=crop"
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-        />
-
-        <div className="relative z-10 max-w-4xl">
-          <p className="uppercase tracking-[0.5em] text-yellow-500 text-sm mb-5">
-            Perfumes Exclusivos
-          </p>
-
-          <h2 className="text-5xl md:text-7xl font-bold leading-tight">
-            Tu esencia habla antes que tú.
-          </h2>
-
-          <p className="text-zinc-300 text-lg mt-8 max-w-2xl mx-auto leading-relaxed">
-            Descubre fragancias elegantes, intensas y memorables para cada
-            estilo. Aroma Selecto redefine la experiencia de comprar perfumes
-            online.
-          </p>
-
-          <div className="flex flex-col md:flex-row gap-4 justify-center mt-10">
-            <button className="bg-yellow-500 text-black px-8 py-4 rounded-full font-bold hover:scale-105 transition">
-              Comprar Ahora
-            </button>
-
-            <button className="border border-yellow-500 text-yellow-500 px-8 py-4 rounded-full hover:bg-yellow-500 hover:text-black transition">
-              Ver Catálogo
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Beneficios */}
-      <section
-        id="beneficios"
-        className="grid md:grid-cols-3 gap-6 px-8 py-20 bg-zinc-950"
-      >
-        {[
-          {
-            title: "Envíos Seguros",
-            desc: "Entrega rápida y protegida en toda Colombia.",
-          },
-          {
-            title: "Pagos Online",
-            desc: "PSE, Nequi, tarjetas y transferencias seguras.",
-          },
-          {
-            title: "Atención Personalizada",
-            desc: "Asesoría directa por WhatsApp Business.",
-          },
-        ].map((item, index) => (
-          <div
-            key={index}
-            className="bg-black border border-zinc-800 rounded-3xl p-8 hover:border-yellow-500 transition"
-          >
-            <h3 className="text-2xl font-semibold text-yellow-500 mb-4">
-              {item.title}
-            </h3>
-            <p className="text-zinc-400 leading-relaxed">{item.desc}</p>
-          </div>
-        ))}
-      </section>
-
-      {/* Catalogo */}
-      <section id="catalogo" className="px-8 py-24">
+    <section id="beneficios" className="py-24 bg-zinc-950" ref={ref}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className="uppercase tracking-[0.4em] text-yellow-500 text-sm">
-            Catálogo Premium
+          <p className="uppercase tracking-[0.4em] text-yellow-500 text-xs font-medium">
+            Por qué elegirnos
           </p>
-          <h2 className="text-5xl font-bold mt-4">Perfumes Destacados</h2>
+          <h2 className="text-4xl md:text-5xl font-bold mt-4 font-display">
+            La experiencia{' '}
+            <span className="text-gradient-gold">Aroma Selecto</span>
+          </h2>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {perfumes.map((perfume, index) => (
+        <div className="grid md:grid-cols-3 gap-6">
+          {items.map((item, i) => (
             <div
-              key={index}
-              className="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden hover:-translate-y-2 transition duration-300"
+              key={i}
+              className={`group bg-zinc-900/50 border border-zinc-800/60 rounded-2xl p-8 hover:border-yellow-500/40 transition-all duration-500 hover:-translate-y-1 ${
+                isVisible ? 'animate-fade-up' : 'opacity-0'
+              }`}
+              style={{ animationDelay: `${i * 0.15}s` }}
             >
-              <div className="overflow-hidden">
-                <img
-                  src={perfume.image}
-                  className="w-full h-[420px] object-cover hover:scale-110 transition duration-700"
-                />
+              <div className="w-14 h-14 rounded-xl bg-yellow-500/10 flex items-center justify-center mb-6 group-hover:bg-yellow-500/20 transition-colors duration-300">
+                <item.icon className="w-7 h-7 text-yellow-500" />
               </div>
-
-              <div className="p-6">
-                <p className="text-yellow-500 text-sm uppercase tracking-[0.3em] mb-2">
-                  {perfume.category}
-                </p>
-
-                <h3 className="text-3xl font-bold">{perfume.name}</h3>
-
-                <p className="text-zinc-400 mt-4 leading-relaxed">
-                  Fragancia exclusiva con notas sofisticadas y duración
-                  premium.
-                </p>
-
-                <div className="flex items-center justify-between mt-8">
-                  <span className="text-2xl font-bold text-yellow-500">
-                    {perfume.price}
-                  </span>
-
-                  <button className="bg-yellow-500 text-black px-5 py-3 rounded-full font-semibold hover:scale-105 transition">
-                    Comprar
-                  </button>
-                </div>
-              </div>
+              <h3 className="text-xl font-semibold text-white mb-3">
+                {item.title}
+              </h3>
+              <p className="text-zinc-400 leading-relaxed text-sm">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* Banner */}
-      <section className="px-8 py-24 text-center bg-gradient-to-r from-yellow-500 to-yellow-300 text-black">
-        <h2 className="text-5xl font-bold max-w-4xl mx-auto leading-tight">
-          Vive la experiencia Aroma Selecto y encuentra tu fragancia ideal.
-        </h2>
+function PerfumeCard({
+  perfume,
+  onAddCart,
+  isFav,
+  onToggleFav,
+}: {
+  perfume: Perfume;
+  onAddCart: (name: string) => void;
+  isFav: boolean;
+  onToggleFav: (name: string) => void;
+}) {
+  const [imgLoaded, setImgLoaded] = useState(false);
 
-        <p className="mt-6 text-lg max-w-2xl mx-auto">
-          Elegancia, autenticidad y exclusividad en cada perfume.
+  return (
+    <div className="group bg-zinc-900/40 border border-zinc-800/50 rounded-2xl overflow-hidden hover:border-yellow-500/30 transition-all duration-500 hover:-translate-y-1 hover:shadow-xl hover:shadow-yellow-500/5">
+      <div className="relative overflow-hidden aspect-[3/4]">
+        {!imgLoaded && (
+          <div className="absolute inset-0 bg-zinc-800 shimmer" />
+        )}
+        <img
+          src={perfume.image}
+          alt={perfume.name}
+          className={`w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ${
+            imgLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+          onLoad={() => setImgLoaded(true)}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+
+        <button
+          onClick={() => onToggleFav(perfume.name)}
+          className="absolute top-4 right-4 w-10 h-10 rounded-full glass flex items-center justify-center transition-all duration-300 hover:scale-110"
+        >
+          <Heart
+            className={`w-5 h-5 transition-colors duration-300 ${
+              isFav ? 'fill-yellow-500 text-yellow-500' : 'text-white/70'
+            }`}
+          />
+        </button>
+
+        <div className="absolute bottom-4 left-4">
+          <span className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-widest bg-yellow-500/20 text-yellow-500 border border-yellow-500/30">
+            {perfume.category}
+          </span>
+        </div>
+      </div>
+
+      <div className="p-5">
+        <div className="flex items-center gap-1 mb-2">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <Star
+              key={i}
+              className={`w-3.5 h-3.5 ${
+                i < Math.floor(perfume.rating)
+                  ? 'fill-yellow-500 text-yellow-500'
+                  : 'text-zinc-600'
+              }`}
+            />
+          ))}
+          <span className="text-xs text-zinc-500 ml-1">{perfume.rating}</span>
+        </div>
+
+        <h3 className="text-lg font-bold text-white group-hover:text-yellow-500 transition-colors duration-300">
+          {perfume.name}
+        </h3>
+
+        <p className="text-zinc-500 text-xs mt-1">{perfume.notes}</p>
+
+        <p className="text-zinc-400 text-sm mt-3 leading-relaxed line-clamp-2">
+          {perfume.description}
         </p>
 
-        <button className="mt-10 bg-black text-white px-8 py-4 rounded-full font-bold hover:scale-105 transition">
-          Explorar Tienda
-        </button>
-      </section>
+        <div className="flex items-center justify-between mt-5 pt-4 border-t border-zinc-800/60">
+          <span className="text-xl font-bold text-yellow-500">
+            {perfume.price}
+          </span>
+          <button
+            onClick={() => onAddCart(perfume.name)}
+            className="bg-yellow-500 text-black px-4 py-2.5 rounded-full text-xs font-bold tracking-wide hover:shadow-lg hover:shadow-yellow-500/20 transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+          >
+            Comprar
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-      {/* Footer */}
-      <footer
-        id="contacto"
-        className="px-8 py-16 border-t border-zinc-800 bg-black"
+function Catalog({
+  cartCount,
+  setCartCount,
+}: {
+  cartCount: number;
+  setCartCount: (n: number) => void;
+}) {
+  const [activeCategory, setActiveCategory] = useState<Category>('Todos');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
+  const [sortBy, setSortBy] = useState<'default' | 'price-asc' | 'price-desc'>('default');
+  const { ref, isVisible } = useInView();
+
+  const filtered = perfumes
+    .filter((p) => activeCategory === 'Todos' || p.category === activeCategory)
+    .filter((p) => p.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
+  const sorted = [...filtered].sort((a, b) => {
+    if (sortBy === 'price-asc') return a.priceNum - b.priceNum;
+    if (sortBy === 'price-desc') return b.priceNum - a.priceNum;
+    return 0;
+  });
+
+  const handleAddCart = () => setCartCount(cartCount + 1);
+
+  const toggleFav = (name: string) => {
+    setFavorites((prev) => {
+      const next = new Set(prev);
+      if (next.has(name)) next.delete(name);
+      else next.add(name);
+      return next;
+    });
+  };
+
+  return (
+    <section id="catalogo" className="py-24 bg-black" ref={ref}>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="text-center mb-12">
+          <p className="uppercase tracking-[0.4em] text-yellow-500 text-xs font-medium">
+            Catálogo Premium
+          </p>
+          <h2 className="text-4xl md:text-5xl font-bold mt-4 font-display">
+            Perfumes <span className="text-gradient-gold">Destacados</span>
+          </h2>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-10">
+          <div className="flex flex-wrap items-center gap-2">
+            {categories.map((cat) => (
+              <button
+                key={cat}
+                onClick={() => setActiveCategory(cat)}
+                className={`px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-300 ${
+                  activeCategory === cat
+                    ? 'bg-yellow-500 text-black shadow-lg shadow-yellow-500/20'
+                    : 'bg-zinc-900 text-zinc-400 border border-zinc-800 hover:border-yellow-500/40 hover:text-yellow-500'
+                }`}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-3">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
+              <input
+                type="text"
+                placeholder="Buscar perfume..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="bg-zinc-900 border border-zinc-800 rounded-full pl-10 pr-4 py-2.5 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-yellow-500/50 transition-colors w-48"
+              />
+            </div>
+
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as typeof sortBy)}
+              className="bg-zinc-900 border border-zinc-800 rounded-full px-4 py-2.5 text-sm text-zinc-400 focus:outline-none focus:border-yellow-500/50 transition-colors appearance-none cursor-pointer"
+            >
+              <option value="default">Relevancia</option>
+              <option value="price-asc">Precio: Menor</option>
+              <option value="price-desc">Precio: Mayor</option>
+            </select>
+          </div>
+        </div>
+
+        {sorted.length === 0 ? (
+          <div className="text-center py-20">
+            <p className="text-zinc-500 text-lg">
+              No se encontraron perfumes con esa búsqueda.
+            </p>
+          </div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {sorted.map((perfume, i) => (
+              <div
+                key={perfume.name}
+                className={isVisible ? 'animate-fade-up' : 'opacity-0'}
+                style={{ animationDelay: `${(i % 4) * 0.1}s` }}
+              >
+                <PerfumeCard
+                  perfume={perfume}
+                  onAddCart={handleAddCart}
+                  isFav={favorites.has(perfume.name)}
+                  onToggleFav={toggleFav}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
+function Banner() {
+  const { ref, isVisible } = useInView();
+
+  return (
+    <section
+      className="relative py-24 overflow-hidden"
+      ref={ref}
+    >
+      <div className="absolute inset-0 bg-gradient-gold opacity-95" />
+      <div
+        className="absolute inset-0"
+        style={{
+          backgroundImage:
+            'radial-gradient(circle at 20% 50%, rgba(0,0,0,0.1) 0%, transparent 50%), radial-gradient(circle at 80% 50%, rgba(0,0,0,0.1) 0%, transparent 50%)',
+        }}
+      />
+
+      <div
+        className={`relative z-10 max-w-4xl mx-auto text-center px-6 ${
+          isVisible ? 'animate-fade-up' : 'opacity-0'
+        }`}
       >
+        <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black leading-tight font-display">
+          Vive la experiencia Aroma Selecto y encuentra tu fragancia ideal.
+        </h2>
+        <p className="mt-6 text-lg text-black/70 max-w-2xl mx-auto">
+          Elegancia, autenticidad y exclusividad en cada perfume.
+        </p>
+        <a
+          href="#catalogo"
+          className="inline-flex items-center gap-2 mt-10 bg-black text-white px-8 py-4 rounded-full font-bold text-sm tracking-wide hover:shadow-2xl hover:shadow-black/30 transition-all duration-300 hover:-translate-y-0.5"
+        >
+          Explorar Tienda
+          <ArrowRight className="w-4 h-4" />
+        </a>
+      </div>
+    </section>
+  );
+}
+
+function Footer() {
+  return (
+    <footer id="contacto" className="bg-zinc-950 border-t border-zinc-800/60">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
         <div className="grid md:grid-cols-3 gap-12">
           <div>
-            <h3 className="text-2xl font-bold text-yellow-500">
-              AROMA SELECTO
-            </h3>
-            <p className="text-zinc-400 mt-4 leading-relaxed">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-full bg-gradient-gold flex items-center justify-center">
+                <Sparkles className="w-5 h-5 text-black" />
+              </div>
+              <h3 className="text-xl font-bold tracking-[0.2em] text-yellow-500 font-display">
+                AROMA SELECTO
+              </h3>
+            </div>
+            <p className="text-zinc-500 leading-relaxed text-sm">
               Perfumería online premium especializada en fragancias exclusivas
               para hombres y mujeres.
             </p>
           </div>
 
           <div>
-            <h4 className="font-semibold text-xl mb-5">Contacto</h4>
-            <div className="space-y-3 text-zinc-400">
-              <p>📍 Barranquilla, Colombia</p>
-              <p>📱 WhatsApp: +57 300 000 0000</p>
-              <p>📧 contacto@aromaselecto.com</p>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-widest">
+              Contacto
+            </h4>
+            <div className="space-y-3 text-zinc-500 text-sm">
+              <p>Barranquilla, Colombia</p>
+              <p>WhatsApp: +57 300 000 0000</p>
+              <p>contacto@aromaselecto.com</p>
             </div>
           </div>
 
           <div>
-            <h4 className="font-semibold text-xl mb-5">Síguenos</h4>
-            <div className="space-y-3 text-zinc-400">
-              <p>Instagram</p>
-              <p>Facebook</p>
-              <p>TikTok</p>
+            <h4 className="font-semibold text-white mb-5 text-sm uppercase tracking-widest">
+              Síguenos
+            </h4>
+            <div className="flex gap-3">
+              {[
+                { icon: Instagram, label: 'Instagram' },
+                { icon: Facebook, label: 'Facebook' },
+                { icon: Music2, label: 'TikTok' },
+              ].map(({ icon: Icon, label }) => (
+                <button
+                  key={label}
+                  className="w-10 h-10 rounded-full border border-zinc-800 flex items-center justify-center text-zinc-500 hover:border-yellow-500 hover:text-yellow-500 transition-all duration-300"
+                >
+                  <Icon className="w-4 h-4" />
+                </button>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="border-t border-zinc-800 mt-12 pt-8 text-center text-zinc-500 text-sm">
-          © 2026 Aroma Selecto — Todos los derechos reservados.
+        <div className="border-t border-zinc-800/60 mt-12 pt-8 text-center text-zinc-600 text-xs tracking-wide">
+          &copy; 2026 Aroma Selecto &mdash; Todos los derechos reservados.
         </div>
-      </footer>
+      </div>
+    </footer>
+  );
+}
 
-      {/* WhatsApp Floating Button */}
-      <a
-        href="https://wa.me/573000000000"
-        target="_blank"
-        className="fixed bottom-6 right-6 bg-green-500 text-white px-6 py-4 rounded-full shadow-2xl font-bold hover:scale-110 transition z-50"
-      >
-        WhatsApp
-      </a>
+function WhatsAppButton() {
+  return (
+    <a
+      href="https://wa.me/573000000000"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-6 right-6 z-50 group"
+    >
+      <div className="relative">
+        <div className="absolute inset-0 bg-green-500 rounded-full animate-pulse-gold" />
+        <div className="relative bg-green-500 text-white w-14 h-14 rounded-full shadow-2xl shadow-green-500/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+          <MessageCircle className="w-6 h-6" />
+        </div>
+      </div>
+    </a>
+  );
+}
+
+export default function App() {
+  const [cartCount, setCartCount] = useState(0);
+
+  return (
+    <div className="min-h-screen bg-black text-white">
+      <Navbar cartCount={cartCount} />
+      <Hero />
+      <Benefits />
+      <Catalog cartCount={cartCount} setCartCount={setCartCount} />
+      <Banner />
+      <Footer />
+      <WhatsAppButton />
     </div>
   );
 }
+
