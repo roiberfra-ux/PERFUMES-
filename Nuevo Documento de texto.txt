@@ -32,7 +32,7 @@ interface Perfume {
 
 const perfumes: Perfume[] = [
   {
-    name: '/Bleu de Chanel',
+    name: 'Bleu de Chanel',
     category: 'Hombre',
     price: '$650.000',
     priceNum: 650000,
@@ -42,7 +42,7 @@ const perfumes: Perfume[] = [
     rating: 4.8,
   },
   {
-    name: '/Dior Sauvage',
+    name: 'Dior Sauvage',
     category: 'Hombre',
     price: '$620.000',
     priceNum: 620000,
@@ -52,27 +52,27 @@ const perfumes: Perfume[] = [
     rating: 4.9,
   },
   {
-    name: '/La Vie Est Belle',
+    name: 'La Vie Est Belle',
     category: 'Mujer',
     price: '$580.000',
     priceNum: 580000,
-    image: 'LAVIEBELLE.JPG',
+    image: 'LAVIEBELLE.JG',
     description: 'La felicidad capturada en un frasco, dulce y luminosa.',
     notes: 'Iris, jazmín, naranja',
     rating: 4.7,
   },
   {
-    name: '/BURBERRY',
+    name: 'Gucci Bloom',
     category: 'Mujer',
     price: '$590.000',
     priceNum: 590000,
-    image: 'BURBERRY.JPG',
-    description: 'fragancia elegante, fresca y sofisticada con un toque clásico y duradero.',
+    image: 'https://images.pexels.com/photos/9657480/pexels-photo-9657480.jpeg?auto=compress&cs=tinysrgb&w=600',
+    description: 'Un jardín floreciente en cada gota, pura feminidad.',
     notes: 'Tuberosa, jazmín, rango',
     rating: 4.6,
   },
   {
-    name: '/Tom Ford Black Orchid',
+    name: 'Tom Ford Black Orchid',
     category: 'Nicho',
     price: '$780.000',
     priceNum: 780000,
@@ -82,7 +82,7 @@ const perfumes: Perfume[] = [
     rating: 4.9,
   },
   {
-    name: '/Acqua Di Gio',
+    name: 'Acqua Di Gio',
     category: 'Hombre',
     price: '$560.000',
     priceNum: 560000,
@@ -92,7 +92,7 @@ const perfumes: Perfume[] = [
     rating: 4.7,
   },
   {
-    name: '/Chloé Eau de Parfum',
+    name: 'Chloé Eau de Parfum',
     category: 'Mujer',
     price: '$570.000',
     priceNum: 570000,
@@ -102,7 +102,7 @@ const perfumes: Perfume[] = [
     rating: 4.5,
   },
   {
-    name: '/Creed Aventus',
+    name: 'Creed Aventus',
     category: 'Nicho',
     price: '$1.650.000',
     priceNum: 1650000,
@@ -112,7 +112,7 @@ const perfumes: Perfume[] = [
     rating: 5.0,
   },
   {
-    name: '/Versace Eros',
+    name: 'Versace Eros',
     category: 'Hombre',
     price: '$520.000',
     priceNum: 520000,
@@ -122,7 +122,7 @@ const perfumes: Perfume[] = [
     rating: 4.6,
   },
   {
-    name: '/YSL Black Opium',
+    name: 'YSL Black Opium',
     category: 'Mujer',
     price: '$610.000',
     priceNum: 610000,
@@ -130,6 +130,26 @@ const perfumes: Perfume[] = [
     description: 'Adictiva y rockera, la oscuridad nunca fue tan tentadora.',
     notes: 'Café, vainilla, jazmín',
     rating: 4.8,
+  },
+  {
+    name: 'Burberry Hero',
+    category: 'Hombre',
+    price: '$540.000',
+    priceNum: 540000,
+    image: 'BURBERRY.JPG',
+    description: 'Coraje y determinación en cada aplicación.',
+    notes: 'Cedro, vetiver, musgo de roble',
+    rating: 4.4,
+  },
+  {
+    name: 'Baccarat Rouge 540',
+    category: 'Nicho',
+    price: '$1.850.000',
+    priceNum: 1850000,
+    image: 'https://images.pexels.com/photos/9657475/pexels-photo-9657475.jpeg?auto=compress&cs=tinysrgb&w=600',
+    description: 'Joya de la perfumería, una obra maestra de Maison FK.',
+    notes: 'Azafrán, ambrosía, cedro',
+    rating: 5.0,
   },
 ];
 
