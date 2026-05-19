@@ -52,7 +52,7 @@ const perfumes: Perfume[] = [
     rating: 4.9,
   },
   {
-    name: '7La Vie Est Belle',
+    name: '/La Vie Est Belle',
     category: 'Mujer',
     price: '$580.000',
     priceNum: 580000,
@@ -62,7 +62,7 @@ const perfumes: Perfume[] = [
     rating: 4.7,
   },
   {
-    name: '7BURBERRY',
+    name: '/BURBERRY',
     category: 'Mujer',
     price: '$590.000',
     priceNum: 590000,
@@ -72,7 +72,7 @@ const perfumes: Perfume[] = [
     rating: 4.6,
   },
   {
-    name: '7Tom Ford Black Orchid',
+    name: '/Tom Ford Black Orchid',
     category: 'Nicho',
     price: '$780.000',
     priceNum: 780000,
@@ -102,7 +102,7 @@ const perfumes: Perfume[] = [
     rating: 4.5,
   },
   {
-    name: '7Creed Aventus',
+    name: '/Creed Aventus',
     category: 'Nicho',
     price: '$1.650.000',
     priceNum: 1650000,
@@ -112,7 +112,7 @@ const perfumes: Perfume[] = [
     rating: 5.0,
   },
   {
-    name: '7Versace Eros',
+    name: '/Versace Eros',
     category: 'Hombre',
     price: '$520.000',
     priceNum: 520000,
@@ -122,7 +122,7 @@ const perfumes: Perfume[] = [
     rating: 4.6,
   },
   {
-    name: '7YSL Black Opium',
+    name: '/YSL Black Opium',
     category: 'Mujer',
     price: '$610.000',
     priceNum: 610000,
